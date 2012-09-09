@@ -1,0 +1,6 @@
+log
+TODO
+locks
+*.gem
+Gemfile.lock
+.bundle

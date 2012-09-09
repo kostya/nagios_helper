@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), %w{.. lib})))
+require 'nagios_check/boot'
+
+raise "RAILS_ROOT not found" unless defined?(RAILS_ROOT)
+require File.join(RAILS_ROOT, %w{config environment})
+
+require 'nagios_check'
+
+method = ARGV.shift
+params = {}
+ARGV.each_pair{|a, b| params[a.to_s.gsub('-', '')] = b }
+
+status, message = Nagios::Runner.check(params.merge(:method => method))
+puts "#{Nagios.status_name(status)} => '#{message}'"
