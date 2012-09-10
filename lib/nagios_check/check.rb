@@ -2,13 +2,13 @@ class Nagios::Check
 
   TYPES = %w{ok crit other warn} unless defined?(TYPES)
 
-  attr_accessor :runner
-
-  def initialize(runner, params, &callback)
-    @runner = runner
-    @params = params
+  def initialize(params, &callback)
+    @params = params.with_indifferent_access
     @callback = callback
     @started_at = Time.now
+    @tag = "#{self.class.name}/#{params.inspect}"
+    
+    logger.info "=> #{@tag}"
     
     @ok = []
     @crit = []
@@ -30,23 +30,30 @@ class Nagios::Check
     end
   end
 
-  def execute_and_result
-    execute
-    send_result
+  def run
+    safe do
+      execute
+      send_result
+    end
   end
   
   # synchrony check, for manually calls
   def self.check(params = {})
-    name = self.name.underscore.split("/").last
-    Nagios::Runner.check({:method => name}.merge(params))
+    result = nil
+    
+    inst = self.new(params) do |res|
+      result = res    
+    end
+    
+    inst.run
   end
   
-private 
+protected
 
   def send_result
     st, mes = res = self.result
     
-    logger.info "<= #{runner.tag} = [#{Nagios.status_name(st)}, #{mes}], wait: (#{@started_at - runner.started_at}), time: (#{Time.now - @started_at})"
+    logger.info "<= #{@tag} = [#{Nagios.status_name(st)}, #{mes}], time: (#{Time.now - @started_at})"
     @callback[ res ]
     
     res
@@ -75,6 +82,15 @@ private
   
   def self.params(*syms)
     syms.each { |s| define_method(s) { @params[s] } }
+  end
+  
+  def safe
+    yield
+  rescue Exception, NameError, Timeout::Error => ex
+    logger.info "X= #{@tag} #{ex.message} (#{ex.backtrace.inspect})"
+    
+    other "Exception: " + ex.message
+    send_result
   end
   
 end

@@ -14,15 +14,22 @@ describe "Nagios::Runner" do
   end                  
   
   it "undefined klass" do
-    @status, @message = Nagios::Runner.check({'method' => "blah"})
-    @status.should == Nagios::OTHER
-    @message.should include('Nagios::Blah')
+    lambda do
+      Nagios::Runner.check({'method' => "blah"})
+    end.should raise_error
+    # @status, @message = Nagios::Runner.check({'method' => "blah"})
+    # @status.should == Nagios::OTHER
+    # @message.should include('Nagios::Blah')
   end
   
   it "empty class" do
-    @status, @message = Nagios::Runner.check({})
-    @status.should == Nagios::OTHER
-    @message.should include('unknown klass')
+    lambda do
+      Nagios::Runner.check
+    end.should raise_error
+    
+    # @status, @message = Nagios::Runner.check({})
+    # @status.should == Nagios::OTHER
+    # @message.should include('unknown klass')
   end
   
   describe "check" do
@@ -66,37 +73,37 @@ describe "Nagios::Runner" do
 
   describe "check_em" do
     it "crit" do
-      @status, @message = Nagios::Runner.check({'method' => "bla_em", 's' => 'crit'})
+      @status, @message = Nagios::RunnerAsync.check({'method' => "bla_em", 's' => 'crit'})
       @status.should == Nagios::CRIT
       @message.should include('b1')
     end
     
     it "warn" do
-      @status, @message = Nagios::Runner.check({'method' => "bla_em", 's' => 'warn'})
+      @status, @message = Nagios::RunnerAsync.check({'method' => "bla_em", 's' => 'warn'})
       @status.should == Nagios::WARN
       @message.should include('b2')
     end
     
     it "raise" do
-      @status, @message = Nagios::Runner.check({'method' => "bla_em", 's' => 'raise'})
+      @status, @message = Nagios::RunnerAsync.check({'method' => "bla_em", 's' => 'raise'})
       @status.should == Nagios::OTHER
       @message.should include('b3')
     end                            
     
     it "other" do
-      @status, @message = Nagios::Runner.check({'method' => "bla_em", 's' => 'other'})
+      @status, @message = Nagios::RunnerAsync.check({'method' => "bla_em", 's' => 'other'})
       @status.should == Nagios::OTHER
       @message.should include('b4')
     end
     
     it "ok" do
-      @status, @message = Nagios::Runner.check({'method' => "bla_em", 's' => 'ok'})
+      @status, @message = Nagios::RunnerAsync.check({'method' => "bla_em", 's' => 'ok'})
       @status.should == Nagios::OK
       @message.should include('b5')
     end
     
     it "crit_warn" do
-      @status, @message = Nagios::Runner.check({'method' => "bla_em", 's' => 'crit_warn'})
+      @status, @message = Nagios::RunnerAsync.check({'method' => "bla_em", 's' => 'crit_warn'})
       @status.should == Nagios::CRIT
       @message.should include('b1')
       @message.should include('b2')

@@ -1,78 +1,61 @@
 class Nagios::Runner
 
-  attr_accessor :started_at, :tag
-
   def initialize(params, &callback)
     @params = params.with_indifferent_access
     @callback = callback
-
-    safe do
-      prepare
-      run
-    end
-  end
-
-  def safe
-    yield
-  rescue Exception, NameError, Timeout::Error => ex 
-    Nagios.logger.info "X= #{@tag} #{ex.message} (#{ex.backtrace.inspect})"
-    @callback.call [Nagios::OTHER, "Exception: " + ex.message]
-  end
-
-  def safe_defer
-    EM.defer do
-      safe do
-        yield
-      end
-    end
+    @method = @params.delete(:method).to_s
+    @method = @method.gsub(/[^_\.\-a-z0-9]/i, '')
+    
+    raise "method should be" if @method.blank?
+    
+    find_class        
+    run
   end
 
   # synchrony check, for manual call
-  def self.check(params, &callback)
-    result = nil 
-    EM.run do
-      self.new(params) do |res|
-        begin
-          result = res
-        ensure
-          EM.stop
-        end        
-      end
+  def self.check(params = {})
+    result = nil
+    
+    self.new(params) do |res|
+      result = res
     end
     
     result
   end
 
-private  
+protected  
 
-  def prepare
-    @method = @params.delete(:method).to_s
-    @method = @method.gsub(/[^_\.\-a-z0-9]/i, '')
+  def constantize
+    "Nagios::#{@method.camelize}".constantize
+  rescue LoadError, NameError
+    nil               
+  end
+
+  def find_class
+    klass = constantize
     
-    @started_at = Time.now
-    @tag = "[#{@method}/#{@params.inspect}]"
+    unless klass 
+      Dir[Nagios.rails_root + "/app/nagios/**/#{@method}.rb"].each do |file|
+        require File.expand_path(file)
+      end
+      
+      klass = constantize
+    end
     
-    Nagios.logger.info "=> #{@tag}"
+    raise "unknown klass #{@klass.inspect}" unless klass
+    
+    @klass = klass
+    @ancestor = klass.ancestors.detect{|an| an == Nagios::Check || an == Nagios::CheckEM }
   end
 
   def run
-    klass = "Nagios::#{@method.camelize}".constantize
-    raise "unknown klass for method #{@method}" unless klass
-    
-    ancestor = klass.ancestors.detect{|an| an == Nagios::Check || an == Nagios::CheckEM }
-
-    if ancestor == Nagios::Check
-      # to thread pool
-      safe_defer do
-        script = klass.new(self, @params, &@callback)
-        script.execute_and_result
-      end
-    elsif ancestor == Nagios::CheckEM
-      script = klass.new(self, @params, &@callback)
-      script.execute
-      
+    if @ancestor == Nagios::Check
+      script = @klass.new(@params, &@callback)
+      script.run
+    elsif @ancestor == Nagios::CheckEM
+      raise "cant run EM check in Sync Runner"
     else      
-      raise "unknown klass #{klass.inspect}"
+      raise "unknown klass #{@klass.inspect}"
     end
   end
   

@@ -5,8 +5,8 @@ class NagiosDefaultApp < Sinatra::Base
   register Sinatra::Async
 
   aget '/check/:method' do
-    Nagios::Runner.new(params) do |status, message|
-      body JSON.generate({:status => status, :message => message})
+    Nagios::RunnerAsync.new(params) do |res|
+      body JSON.generate(res)
     end
   end
 

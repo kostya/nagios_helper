@@ -7,6 +7,7 @@ require 'rack'
 raise "RAILS_ROOT not found" unless defined?(RAILS_ROOT)
 require File.join(RAILS_ROOT, %w{config environment})
 
+require 'eventmachine'
 require 'nagios_check'
 
 Rack # preload
@@ -29,4 +30,5 @@ module Rack
   end
 end
 
+Nagios.concurrency_level = Nagios::CONCURRENCY_LEVEL
 Rack::Server.start
