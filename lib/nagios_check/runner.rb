@@ -7,8 +7,9 @@ class Nagios::Runner
     @method = @method.gsub(/[^_\.\-a-z0-9]/i, '')
     
     raise "method should be" if @method.blank?
-    
-    find_class        
+
+    load_initializers
+    load_class        
     run
   end
 
@@ -30,8 +31,18 @@ protected
   rescue LoadError, NameError
     nil               
   end
+  
+  def load_initializers
+    unless Nagios.project_initializer_loaded
+      Dir[Nagios.rails_root + "/app/nagios/initializers/*.rb"].each do |file|
+        require File.expand_path(file)
+      end                          
+            
+      Nagios.project_initializer_loaded = true
+    end
+  end
 
-  def find_class
+  def load_class
     klass = constantize
     
     unless klass 

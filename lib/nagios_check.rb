@@ -1,6 +1,9 @@
 require 'active_support'
 require 'active_support/inflector'
-#require 'active_support/core_ext/object/blank'
+begin
+  require 'active_support/core_ext/object/blank'
+rescue LoadError
+end
 require 'active_support/core_ext/hash/indifferent_access'
 require 'logger'
 require 'timeout'
@@ -26,6 +29,8 @@ module Nagios
         logger.formatter = lambda { |s, d, p, m| "#{d.strftime("%d.%m.%Y %H:%M:%S")} #{m}\n" }
       end
     end
+    
+    attr_accessor :project_initializer_loaded
     
     def concurrency_level
       @concurrency_level

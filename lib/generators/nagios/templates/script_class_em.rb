@@ -9,7 +9,7 @@ class Nagios::<%= class_name %> < Nagios::CheckEM
         crit "ouch" if x == 'c'
         ok "good"
     
-        send_result # for sending results, should be!
+        send_result # should be!, for sending results
       end
     end
   end
