@@ -25,14 +25,17 @@ class Nagios::Some < Nagios::Check
 end
 ```
 
-Run simple check: 
+Run: 
 
     $ RAILS_ENV=production bundle exec nagios_check some x 1
     
 
-### Run server:
+### Server:
 
-1. Create controller: app/controllers/nagios_controller.rb
+Inside rails server
+-------------------
+
+Create controller: app/controllers/nagios_controller.rb
 
 ```ruby
 class NagiosController < ApplicationController
@@ -50,7 +53,10 @@ end
 
     $ curl localhost:3000/nagios/check?method=some&x=1
 
-2. Or use nonblocking EM-server [nagios_check_server](http://github.com/kostya/nagios_check_server):
+Outside rails server
+--------------------
+
+With using nonblocking EM-server [nagios_check_server](http://github.com/kostya/nagios_check_server):
 AR connections should be configured with pool: 100.
 
     $ RAILS_ENV=production bundle exec nagios_server
