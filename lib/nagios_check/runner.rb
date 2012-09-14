@@ -13,7 +13,7 @@ class Nagios::Runner
     load_class
     
     run
-  rescue => ex
+  rescue Exception, Timeout::Error => ex
     Nagios.logger.info "T= #{params.inspect} #{ex.message} (#{ex.backtrace.inspect})"
     callback[ Nagios::Check.default_error(ex.message) ]
   end
