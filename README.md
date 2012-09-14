@@ -1,11 +1,11 @@
-NagiosCheck
-===========
+NagiosHelper
+============
 
 Rails gem for writing, testing, executing Nagios checks inside Rails application.
 Checks running throught http or binary(nrpe).
 
 ```
-gem 'nagios_check'
+gem 'nagios_helper'
 ```
 
     $ rails generate nagios:check some
@@ -63,7 +63,7 @@ end
 
 ### Outside rails server
 
-With using nonblocking EM-server [nagios_check_server](http://github.com/kostya/nagios_check_server)
+With using nonblocking EM-server [nagios_helper_server](http://github.com/kostya/nagios_helper_server)
 
 AR connections should be configured with pool: 100.
 

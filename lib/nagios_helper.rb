@@ -54,8 +54,8 @@ module Nagios
     end
   end
   
-  autoload :Check,        'nagios_check/check'
-  autoload :CheckEM,      'nagios_check/check_em'
-  autoload :Runner,       'nagios_check/runner'
-  autoload :RunnerAsync,  'nagios_check/runner_async'
+  autoload :Check,        'nagios_helper/check'
+  autoload :CheckEM,      'nagios_helper/check_em'
+  autoload :Runner,       'nagios_helper/runner'
+  autoload :RunnerAsync,  'nagios_helper/runner_async'
 end
