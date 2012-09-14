@@ -4,9 +4,11 @@ NagiosCheck
 Rails gem for writing, testing, executing Nagios checks inside Rails application.
 Checks running throught http or binary(nrpe).
 
-    gem 'nagios_check'
-    
-    rails generate nagios:check some
+```
+gem 'nagios_check'
+```
+
+    $ rails generate nagios:check some
     
 Check example: 
 --------------
