@@ -48,6 +48,10 @@ class Nagios::Check
     inst.run
   end
   
+  def self.default_error(mes)
+    [Nagios::OTHER, mes]
+  end
+  
 protected
 
   def send_result

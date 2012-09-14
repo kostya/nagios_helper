@@ -14,22 +14,15 @@ describe "Nagios::Runner" do
   end                  
   
   it "undefined klass" do
-    lambda do
-      Nagios::Runner.check({'method' => "blah"})
-    end.should raise_error
-    # @status, @message = Nagios::Runner.check({'method' => "blah"})
-    # @status.should == Nagios::OTHER
-    # @message.should include('Nagios::Blah')
+    @status, @message = Nagios::Runner.check({'method' => "blah"})
+    @status.should == Nagios::OTHER
+    @message.should include('Nagios::Blah')
   end
   
   it "empty class" do
-    lambda do
-      Nagios::Runner.check
-    end.should raise_error
-    
-    # @status, @message = Nagios::Runner.check({})
-    # @status.should == Nagios::OTHER
-    # @message.should include('unknown klass')
+    @status, @message = Nagios::Runner.check({})
+    @status.should == Nagios::OTHER
+    @message.should include('method should')
   end
   
   describe "check" do

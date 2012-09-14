@@ -5,6 +5,7 @@ class Nagios::Runner
     @callback = callback
     @method = @params.delete(:method).to_s
     @method = @method.gsub(/[^_\.\-a-z0-9]/i, '')
+    @klass_name = "Nagios::#{@method.camelize}"
     
     raise "method should be" if @method.blank?
 
@@ -12,6 +13,9 @@ class Nagios::Runner
     load_class
     
     run
+  rescue => ex
+    Nagios.logger.info "T= #{params.inspect} #{ex.message} (#{ex.backtrace.inspect})"
+    callback[ Nagios::Check.default_error(ex.message) ]
   end
 
   # synchrony check, for manual call
@@ -28,7 +32,7 @@ class Nagios::Runner
 protected  
 
   def constantize
-    "Nagios::#{@method.camelize}".constantize
+    @klass_name.constantize
   rescue LoadError, NameError
     nil               
   end
@@ -54,7 +58,7 @@ protected
       klass = constantize
     end
     
-    raise "unknown klass #{@klass.inspect}" unless klass
+    raise "unknown klass #{@klass_name}" unless klass
     
     @klass = klass
     @ancestor = klass.ancestors.detect{|an| an == Nagios::Check || an == Nagios::CheckEM }
