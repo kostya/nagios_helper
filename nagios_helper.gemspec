@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
 
   s.authors = ["Makarchev Konstantin"]
   
-  s.description = %q{Rails gem for writing, testing, executing nagios checks inside Rails application. Checks running throught http or binary(nrpe).}
-  s.summary = %q{Rails gem for writing, testing, executing nagios checks inside Rails application. Checks running throught http or binary(nrpe).}
+  s.description = %q{Gem for writing, testing, executing nagios checks inside Rails application. Checks running throught http or binary(nrpe).}
+  s.summary = %q{Gem for writing, testing, executing nagios checks inside Rails application. Checks running throught http or binary(nrpe).}
 
   s.email = %q{kostya27@gmail.com}
   s.homepage = %q{http://github.com/kostya/nagios_helper}
