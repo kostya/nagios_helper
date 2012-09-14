@@ -36,6 +36,10 @@ module Nagios
       @concurrency_level
     end
     
+    def mutex
+      @mutex ||= Mutex.new
+    end
+    
     def concurrency_level=(cl)
       @concurrency_level = cl
       EM.threadpool_size = cl

@@ -8,8 +8,9 @@ class Nagios::Runner
     
     raise "method should be" if @method.blank?
 
-    load_initializers
-    load_class        
+    Nagios.mutex.synchronize{ load_initializers }
+    Nagios.mutex.synchronize{ load_class }
+    
     run
   end
 
