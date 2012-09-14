@@ -61,7 +61,8 @@ end
 
 ### Outside rails server
 
-With using nonblocking EM-server [nagios_check_server](http://github.com/kostya/nagios_check_server):
+With using nonblocking EM-server [nagios_check_server](http://github.com/kostya/nagios_check_server)
+
 AR connections should be configured with pool: 100.
 
     $ RAILS_ENV=production bundle exec nagios_server
