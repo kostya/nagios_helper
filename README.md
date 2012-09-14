@@ -63,7 +63,7 @@ end
 
 ### Outside rails server
 
-With using nonblocking EM-server [nagios_helper_server](http://github.com/kostya/nagios_helper_server)
+With using nonblocking EM-server [nagios_rails_server](http://github.com/kostya/nagios_rails_server)
 
 AR connections should be configured with pool: 100.
 
