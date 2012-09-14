@@ -8,7 +8,11 @@ Checks running throught http or binary(nrpe).
     
     rails generate nagios:check some
     
-### Check example: app/nagios/some.rb
+Check example: 
+--------------
+
+app/nagios/some.rb
+
 ```ruby
 class Nagios::Some < Nagios::Check
   params :x
@@ -28,12 +32,14 @@ end
 Run: 
 
     $ RAILS_ENV=production bundle exec nagios_check some x 1
-    
 
-### Server:
+### Nagios Check Initilizers:
+All files in app/nagios/initializers will auto loads.    
 
-Inside rails server
--------------------
+Server:
+-------
+
+### Inside rails server
 
 Create controller: app/controllers/nagios_controller.rb
 
@@ -53,8 +59,7 @@ end
 
     $ curl localhost:3000/nagios/check?method=some&x=1
 
-Outside rails server
---------------------
+### Outside rails server
 
 With using nonblocking EM-server [nagios_check_server](http://github.com/kostya/nagios_check_server):
 AR connections should be configured with pool: 100.
@@ -62,6 +67,3 @@ AR connections should be configured with pool: 100.
     $ RAILS_ENV=production bundle exec nagios_server
     $ curl localhost:9292/check/some?x=1
 
-
-### Nagios Check Initilizers:
-All files in app/nagios/initializers will auto loads.
