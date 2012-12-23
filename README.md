@@ -47,19 +47,17 @@ Create controller: app/controllers/nagios_controller.rb
 
 ```ruby
 class NagiosController < ApplicationController
+  http_basic_authenticate_with :name => "nagios", :password => "password"
 
   def check
     status, message = Nagios::Runner.check(params)
-
-    respond_to do |f|
-      f.html{ status + "," + message }
-    end
+    render :text => "#{status}|#{message}", :layout => false
   end
 
 end
 ```
 
-    $ curl localhost:3000/nagios/check?method=some&x=1
+    $ curl http://nagios:password@localhost:3000/nagios/check?method=some&x=1
 
 ### Outside rails server
 
