@@ -85,7 +85,7 @@ protected
   end
   
   def self.params(*syms)
-    syms.each { |s| define_method(s) { @params[s] } }
+    syms.each { |s| define_method(s) { @params[s].to_s } }
   end
   
   def safe
