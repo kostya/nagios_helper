@@ -3,7 +3,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{nagios_helper}
-  s.version = "0.1.2"
+  s.version = "0.1.3"
 
   s.authors = ["Makarchev Konstantin"]
 
@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
+  s.license       = "MIT"
 
   s.add_dependency 'activesupport'
   s.add_dependency 'eventmachine'
