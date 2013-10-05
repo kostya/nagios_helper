@@ -2,7 +2,7 @@ require 'spec_helper'
 
 class Nagios::Bla < Nagios::Check
   params :s
-  
+
   def execute
     crit 'a1' if s == 'crit' || s == 'crit_warn'
     warn 'a2' if s == 'warn' || s == 'crit_warn'
@@ -10,7 +10,7 @@ class Nagios::Bla < Nagios::Check
     other 'a4' if s == 'other'
     ok 'a5'
   end
-  
+
 end
 
 class Nagios::BlaEm < Nagios::CheckEM

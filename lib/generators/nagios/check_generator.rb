@@ -9,7 +9,7 @@ if Rails::VERSION::MAJOR >= 3
         template "script_class.rb", "app/nagios/#{file_path}.rb"
         template "spec.rb", "spec/nagios/#{file_path}_spec.rb"
       end
-    end    
+    end
   end
 
 end

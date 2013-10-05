@@ -6,12 +6,12 @@ class Nagios::Runner
     @method = @params.delete(:method).to_s
     @method = @method.gsub(/[^_\.\-a-z0-9]/i, '')
     @klass_name = "Nagios::#{@method.camelize}"
-    
+
     raise "method should be" if @method.blank?
 
     Nagios.mutex.synchronize{ load_initializers }
     load_class
-    
+
     run
   rescue Exception, Timeout::Error => ex
     Nagios.logger.info "T= #{params.inspect} #{ex.message} (#{ex.backtrace.inspect})"
@@ -21,45 +21,45 @@ class Nagios::Runner
   # synchrony check, for manual call
   def self.check(params = {})
     result = nil
-    
+
     self.new(params) do |res|
       result = res
     end
-    
+
     result
   end
 
-protected  
+protected
 
   def constantize
     @klass_name.constantize
   rescue LoadError, NameError
-    nil               
+    nil
   end
-  
+
   def load_initializers
     unless Nagios.project_initializer_loaded
       Dir[Nagios.rails_root + "/app/nagios/initializers/*.rb"].each do |file|
         require File.expand_path(file)
-      end                          
-            
+      end
+
       Nagios.project_initializer_loaded = true
     end
   end
 
   def load_class
     klass = constantize
-    
-    unless klass 
+
+    unless klass
       Dir[Nagios.rails_root + "/app/nagios/**/#{@method}.rb"].each do |file|
         require File.expand_path(file)
       end
-      
+
       klass = constantize
     end
-    
+
     raise "unknown klass #{@klass_name}" unless klass
-    
+
     @klass = klass
     @ancestor = klass.ancestors.detect{|an| an == Nagios::Check || an == Nagios::CheckEM }
   end
@@ -70,9 +70,9 @@ protected
       script.run
     elsif @ancestor == Nagios::CheckEM
       raise "cant run EM check in Sync Runner"
-    else      
+    else
       raise "unknown klass #{@klass.inspect}"
     end
   end
-  
+
 end

@@ -5,5 +5,5 @@ if defined?(RAILS_ENV) && RAILS_ENV['test']
       yield
     end
   end
-  
+
 end

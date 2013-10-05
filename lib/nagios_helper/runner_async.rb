@@ -6,22 +6,22 @@ class Nagios::RunnerAsync < Nagios::Runner
   # do not run in EM
   def self.check(params = {})
     raise "cant check sync in running EM" if EM.reactor_running?
-  
-    result = nil 
+
+    result = nil
     EM.run do
       self.new(params) do |res|
         begin
           result = res
         ensure
           EM.stop
-        end        
+        end
       end
     end
-    
+
     result
   end
 
-protected  
+protected
 
   def run
     if @ancestor == Nagios::Check
@@ -30,14 +30,14 @@ protected
         script = @klass.new(@params, &@callback)
         script.run
       end
-      
+
     elsif @ancestor == Nagios::CheckEM
       script = @klass.new(@params, &@callback)
       script.run
-      
-    else      
+
+    else
       raise "unknown klass #{klass.inspect}"
     end
   end
-  
+
 end

@@ -5,11 +5,11 @@ class Nagios::CheckEM < Nagios::Check
       execute
     end
   end
-  
+
   def execute
     send_result
   end
-  
+
   def safe_defer
     EM.defer do
       safe do
@@ -17,25 +17,25 @@ class Nagios::CheckEM < Nagios::Check
       end
     end
   end
-  
+
   # synchrony check, for manually calls
   # do not call in thin!!!
   def self.check(params = {})
     result = nil
-    
+
     EM.run do
       inst = self.new(params) do |res|
         begin
           result = res
         ensure
-          EM.stop 
+          EM.stop
         end
       end
 
       inst.run
     end
-    
+
     result
-  end  
+  end
 
 end

@@ -9,8 +9,8 @@ gem 'nagios_helper'
 ```
 
     $ rails generate nagios:check some
-    
-Check example: 
+
+Check example:
 --------------
 
 app/nagios/some.rb
@@ -21,22 +21,22 @@ class Nagios::Some < Nagios::Check
 
   def execute
     count = User.count + x.to_i
-  
+
     warn "hmmm" if count < 10
     crit "ouch" if count < 5
-    
+
     ok "good #{count}"
   end
 
 end
 ```
 
-Run: 
+Run:
 
     $ RAILS_ENV=production bundle exec nagios_check some x 1
 
 ### Nagios Check Initilizers:
-All files in app/nagios/initializers will auto loads.    
+All files in app/nagios/initializers will auto loads.
 
 Server:
 -------

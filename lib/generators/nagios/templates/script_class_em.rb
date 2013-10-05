@@ -8,10 +8,10 @@ class Nagios::<%= class_name %> < Nagios::CheckEM
         warn "hmmm" if x == 'w'
         crit "ouch" if x == 'c'
         ok "good"
-    
+
         send_result # should be!, for sending results
       end
     end
   end
-  
+
 end

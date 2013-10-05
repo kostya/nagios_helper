@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.version = "0.1.2"
 
   s.authors = ["Makarchev Konstantin"]
-  
+
   s.description = %q{Gem for writing, testing, executing nagios checks inside Rails application. Checks running throught http or binary(nrpe).}
   s.summary = %q{Gem for writing, testing, executing nagios checks inside Rails application. Checks running throught http or binary(nrpe).}
 
@@ -20,8 +20,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'activesupport'
   s.add_dependency 'eventmachine'
-  
+
   s.add_development_dependency "rspec"
   s.add_development_dependency "rake"
-   
+
 end
