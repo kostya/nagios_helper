@@ -7,7 +7,7 @@ describe Nagios::<%= class_name %> do
   end
 
   it 'should be ok' do
-    status, message = @check.check({:x => 'some'})
+    status, message = @check.check
     status.should == Nagios::OK
     message.should == 'good'
   end

@@ -30,7 +30,11 @@ class Nagios::Check
     end
   end
 
-  def run
+  def run(additional_params = nil)
+    if additional_params && additional_params.is_a?(Hash)
+      @params.merge!(additional_params.with_indifferent_access)
+    end
+
     safe do
       respond_to?(:exec) ? self.exec : self.execute
       send_result
