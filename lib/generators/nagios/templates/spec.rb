@@ -1,5 +1,5 @@
 require File.dirname(__FILE__) + '/../spec_helper'
-require 'nagios_check/spec_helper'
+require 'nagios/spec_helper'
 
 describe Nagios::<%= class_name %> do
   it 'should be ok' do
