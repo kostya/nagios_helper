@@ -2,10 +2,10 @@ NagiosHelper
 ============
 
 Gem for writing, testing, executing Nagios checks inside Rails application.
-Checks running throught http or binary(nrpe).
+Checks running throught http or script.
 
 ```
-gem 'nagios_helper'
+gem 'nagios_helper', :require => 'nagios'
 ```
 
     $ rails generate nagios:check some
