@@ -20,13 +20,13 @@ class Nagios::Check
     errors = [@crit, @warn, @other].flatten * '; '
 
     if @crit.present?
-      [Nagios::CRIT, "CRIT: " + errors]
+      [Nagios::CRIT, errors]
     elsif @warn.present?
-      [Nagios::WARN, "WARN: " + errors]
+      [Nagios::WARN, errors]
     elsif @other.present?
       [Nagios::OTHER, errors]
     else
-      [Nagios::OK, "OK: " + @ok * '; ']
+      [Nagios::OK, @ok * '; ']
     end
   end
 

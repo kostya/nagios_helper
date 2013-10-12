@@ -31,5 +31,7 @@ ARGV.each_pair{|a, b| params[a.to_s.gsub('-', '')] = b }
 
 status, message = Nagios::RunnerAsync.check(params.merge(:method => method))
 
-puts message
+prefix = Nagios::STATUS_NAMES[status] + ": "
+
+puts prefix + message
 exit status

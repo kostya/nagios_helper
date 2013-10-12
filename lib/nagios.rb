@@ -17,10 +17,10 @@ module Nagios
   CONCURRENCY_LEVEL = 100 # for server
 
   STATUS_NAMES = {
-    OK => 'ok',
-    WARN => 'warn',
-    CRIT => 'crit',
-    OTHER => 'other'
+    OK => 'OK',
+    WARN => 'WARN',
+    CRIT => 'CRIT',
+    OTHER => 'OTHER'
   }
 
   class << self
