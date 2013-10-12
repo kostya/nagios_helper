@@ -2,7 +2,7 @@ class Nagios::Check
 
   TYPES = %w{ok crit other warn} unless defined?(TYPES)
 
-  def initialize(params, &callback)
+  def initialize(params = {}, &callback)
     @params = params.with_indifferent_access
     @callback = callback
     @started_at = Time.now
@@ -37,6 +37,9 @@ class Nagios::Check
     end
   end
 
+  alias check run
+  alias do! run
+
   # synchrony check, for manually calls
   def self.check(params = {})
     result = nil
@@ -58,7 +61,7 @@ protected
     st, mes = res = self.result
 
     logger.info "<= #{@tag} = [#{Nagios.status_name(st)}, #{mes}], time: (#{Time.now - @started_at})"
-    @callback[ res ]
+    @callback[ res ] if @callback
 
     res
   end
