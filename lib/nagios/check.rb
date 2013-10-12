@@ -36,7 +36,7 @@ class Nagios::Check
     end
 
     safe do
-      respond_to?(:exec) ? self.exec : self.execute
+      execute
       send_result
     end
   end
