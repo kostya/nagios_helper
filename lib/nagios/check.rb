@@ -42,7 +42,6 @@ class Nagios::Check
   end
 
   alias check run
-  alias do! run
 
   # synchrony check, for manually calls
   def self.check(params = {})
