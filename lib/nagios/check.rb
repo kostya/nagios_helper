@@ -109,4 +109,8 @@ protected
     send_result
   end
 
+  def message(msg)
+    @message = msg
+  end
+
 end
