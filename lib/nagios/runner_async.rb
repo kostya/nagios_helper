@@ -36,7 +36,7 @@ protected
       script.run
 
     else
-      raise "unknown klass #{klass.inspect}"
+      raise "unknown klass #{@klass_name}"
     end
   end
 

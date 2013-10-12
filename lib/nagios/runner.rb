@@ -32,7 +32,10 @@ class Nagios::Runner
 protected
 
   def constantize
-    @klass_name.constantize
+    c = @klass_name.constantize
+    if c.ancestors.detect { |an| an == Nagios::Check || an == Nagios::CheckEM }
+      c
+    end
   rescue LoadError, NameError
     nil
   end
@@ -61,7 +64,7 @@ protected
     raise "unknown klass #{@klass_name}" unless klass
 
     @klass = klass
-    @ancestor = klass.ancestors.detect{|an| an == Nagios::Check || an == Nagios::CheckEM }
+    @ancestor = klass.ancestors.detect { |an| an == Nagios::Check || an == Nagios::CheckEM }
   end
 
   def run
