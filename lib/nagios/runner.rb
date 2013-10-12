@@ -4,7 +4,7 @@ class Nagios::Runner
     @params = params.with_indifferent_access
     @callback = callback
     @method = @params.delete(:method).to_s
-    @method = @method.gsub(/[^_\.\-a-z0-9]/i, '')
+    @method = @method.gsub(/[^:_\.\-a-z0-9]/i, '')
     @klass_name = "Nagios::#{@method.camelize}"
 
     raise "method should be" if @method.blank?
