@@ -32,7 +32,7 @@ class Nagios::Check
 
   def run
     safe do
-      execute
+      respond_to?(:exec) ? self.exec : self.execute
       send_result
     end
   end
