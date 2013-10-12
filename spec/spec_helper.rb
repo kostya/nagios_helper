@@ -4,7 +4,7 @@ Bundler.setup
 ENV['RAILS_ENV'] ||= 'test'
 
 $:.unshift(File.dirname(__FILE__) + '/../lib')
-require 'nagios_helper'
+require 'nagios'
 
 require 'nagios_support'
 
