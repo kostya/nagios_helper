@@ -53,8 +53,16 @@ module Nagios
       @rails_root ||= defined?(RAILS_ROOT) ? RAILS_ROOT : (defined?(Rails) ? Rails.root : nil)
     end
 
-    def rails_root=(root)
-      @rails_root = root
+    def rails_root=(rails_root)
+      @rails_root = rails_root
+    end
+
+    def root
+      @root ||= File.join(rails_root, %w{ app nagios })
+    end
+
+    def root=(root)
+      @root = root
     end
   end
 

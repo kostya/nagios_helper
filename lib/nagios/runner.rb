@@ -39,7 +39,7 @@ protected
 
   def load_initializers
     unless Nagios.project_initializer_loaded
-      Dir[Nagios.rails_root + "/app/nagios/initializers/*.rb"].each do |file|
+      Dir[Nagios.root + "/initializers/*.rb"].each do |file|
         require File.expand_path(file)
       end
 
@@ -51,7 +51,7 @@ protected
     klass = constantize
 
     unless klass
-      Dir[Nagios.rails_root + "/app/nagios/**/#{@method}.rb"].each do |file|
+      Dir[Nagios.root + "/**/#{@method}.rb"].each do |file|
         require File.expand_path(file)
       end
 
