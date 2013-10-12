@@ -28,3 +28,14 @@ class Nagios::BlaEm < Nagios::CheckEM
   end
 
 end
+
+
+# block parameter
+class Nagios::BlockObj < Nagios::Check
+  params :s
+
+  def execute
+    crit("2") { s == '2' }
+    ok "1"
+  end
+end

@@ -71,8 +71,14 @@ protected
   end
 
   TYPES.each do |m|
-    define_method(m) do |mes|
-      instance_variable_get("@#{m}") << mes
+    define_method(m) do |mes, &block|
+      if block
+        if block.call
+          instance_variable_get("@#{m}") << mes
+        end
+      else
+        instance_variable_get("@#{m}") << mes
+      end
     end
   end
   alias :critical :crit

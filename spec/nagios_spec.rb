@@ -103,4 +103,18 @@ describe "Nagios::Runner" do
     end
   end
 
+  describe "Nagios::BlockObj" do
+    it "should be crit" do
+      st, mes = Nagios::BlockObj.new(:s => '1').check
+      st.should == Nagios::OK
+      mes.should == '1'
+    end
+
+    it "should be crit" do
+      st, mes = Nagios::BlockObj.new(:s => '2').check
+      st.should == Nagios::CRIT
+      mes.should == '2'
+    end
+  end
+
 end
