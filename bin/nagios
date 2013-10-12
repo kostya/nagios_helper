@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 $:.unshift(File.expand_path(File.join(File.dirname(__FILE__), %w{.. lib})))
-require 'nagios_helper/boot'
+require 'nagios/boot'
 
 raise "RAILS_ROOT not found" unless defined?(RAILS_ROOT)
 require File.expand_path(File.join(RAILS_ROOT, %w{config environment}))
 
-require 'nagios_helper/runner_async'
+require 'nagios/runner_async'
 
 class Array
   # define an iterator over each pair of indexes in an array
