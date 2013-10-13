@@ -9,7 +9,7 @@ class Nagios::Runner
 
     raise "method should be" if @method.blank?
 
-    Nagios.mutex.synchronize{ load_initializers }
+    Nagios.load_initializers
     load_class
 
     run
@@ -38,16 +38,6 @@ protected
     end
   rescue LoadError, NameError
     nil
-  end
-
-  def load_initializers
-    unless Nagios.project_initializer_loaded
-      Dir[Nagios.root + "/initializers/*.rb"].each do |file|
-        require File.expand_path(file)
-      end
-
-      Nagios.project_initializer_loaded = true
-    end
   end
 
   def load_class

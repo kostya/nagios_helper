@@ -64,6 +64,21 @@ module Nagios
     def root=(root)
       @root = root
     end
+
+    def load_initializers
+      mutex.lock
+
+      unless project_initializer_loaded
+        Dir[root + "/initializers/*.rb"].each do |file|
+          require File.expand_path(file)
+        end
+
+        project_initializer_loaded = true
+      end
+
+    ensure
+      mutex.unlock
+    end
   end
 
   autoload :Check,        'nagios/check'
