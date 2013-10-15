@@ -1,11 +1,4 @@
 #!/usr/bin/env ruby
-$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), %w{.. lib})))
-require 'nagios/boot'
-
-raise "RAILS_ROOT not found" unless defined?(RAILS_ROOT)
-require File.expand_path(File.join(RAILS_ROOT, %w{config environment}))
-
-require 'nagios/runner'
 
 class Array
   # define an iterator over each pair of indexes in an array
@@ -27,10 +20,23 @@ end
 
 method = ARGV.shift
 params = {}
-ARGV.each_pair{|a, b| params[a.to_s.gsub('-', '')] = b }
+ARGV.each_pair do |a, b|
+  if a == '-e'
+    ENV['RAILS_ENV'] = b
+  else
+    params[a.to_s.gsub('-', '')] = b
+  end
+end
+
+$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), %w{.. lib})))
+require 'nagios/boot'
+
+raise "RAILS_ROOT not found" unless defined?(RAILS_ROOT)
+require File.expand_path(File.join(RAILS_ROOT, %w{config environment}))
+
+require 'nagios/runner'
 
 status, message = Nagios::Runner.check(params.merge(:method => method))
-
 prefix = Nagios::STATUS_NAMES[status] + ": "
 
 puts prefix + message
