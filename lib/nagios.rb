@@ -14,7 +14,7 @@ module Nagios
   CRIT = 2
   OTHER = 3
 
-  CONCURRENCY_LEVEL = 100 # for server
+  CONCURRENCY_LEVEL = 25 # for server
 
   STATUS_NAMES = {
     OK => 'OK',
