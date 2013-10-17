@@ -3,7 +3,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{nagios_helper}
-  s.version = "0.1.3"
+  s.version = "0.2"
 
   s.authors = ["Makarchev Konstantin"]
 
