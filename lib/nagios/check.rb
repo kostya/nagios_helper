@@ -98,7 +98,7 @@ protected
   end
 
   def self.params(*syms)
-    syms.each { |s| define_method(s) { @params[s].to_s } }
+    syms.each { |s| define_method(s) { (r = @params[s]) && r.to_s } }
   end
 
   def safe
@@ -108,6 +108,18 @@ protected
 
     other "Exception: " + ex.message
     send_result
+  end
+
+  def tresholds(method, w, e, &block)
+    res = send(method)
+    msg = block[res]
+    if e && res >= e
+      crit msg
+    elsif w && res >= w
+      warn msg
+    else
+      ok msg
+    end
   end
 
 end

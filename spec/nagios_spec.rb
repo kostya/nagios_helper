@@ -116,17 +116,42 @@ describe "Nagios::Runner" do
       mes.should == '2'
     end
   end
-  
+
   it "message_prefix" do
     st, mes = Nagios::Prefix.new(:s => '1').check
     st.should == Nagios::CRIT
     mes.should == 'some 1'
   end
-                  
+
   it "message_prefix" do
     st, mes = Nagios::Prefix.new(:s => '2').check
     st.should == Nagios::OK
     mes.should == 'some 2'
   end
 
+  describe "tresholds" do
+    it "ok" do
+      st, mes = Nagios::Tresh.new(:s => '2', 'c' => '10').check
+      st.should == Nagios::OK
+      mes.should == 'msg 2'
+    end
+
+    it "warn" do
+      st, mes = Nagios::Tresh.new(:s => '7', 'c' => '10').check
+      st.should == Nagios::WARN
+      mes.should == 'msg 7'
+    end
+
+    it "crit" do
+      st, mes = Nagios::Tresh.new(:s => '15', 'c' => '10').check
+      st.should == Nagios::CRIT
+      mes.should == 'msg 15'
+    end
+
+    it "crit undefined should be warn" do
+      st, mes = Nagios::Tresh.new(:s => '15').check
+      st.should == Nagios::WARN
+      mes.should == 'msg 15'
+    end
+  end
 end

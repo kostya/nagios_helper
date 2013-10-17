@@ -42,13 +42,28 @@ end
 
 class Nagios::Prefix < Nagios::Check
   params :s
-  
+
   def message_prefix
     'some '
   end
-  
+
   def execute
     s == '1' ? crit('1') : ok('2')
   end
 end
-              
+
+class Nagios::Tresh < Nagios::Check
+  params :s, :c
+
+  def some_m
+    s && s.to_i
+  end
+
+  def criti
+    c && c.to_i
+  end
+
+  def execute
+    tresholds(:some_m, 5, criti) { |x| "msg #{x}" }
+  end
+end
