@@ -27,6 +27,7 @@ class Nagios::Check
     elsif @other.present?
       [Nagios::OTHER, errors]
     else
+      @ok = ['OK'] if prefix.empty? && @ok.empty?
       [Nagios::OK, prefix + @ok * '; ']
     end
   end
