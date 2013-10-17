@@ -116,5 +116,17 @@ describe "Nagios::Runner" do
       mes.should == '2'
     end
   end
+  
+  it "message_prefix" do
+    st, mes = Nagios::Prefix.new(:s => '1').check
+    st.should == Nagios::CRIT
+    mes.should == 'some 1'
+  end
+                  
+  it "message_prefix" do
+    st, mes = Nagios::Prefix.new(:s => '2').check
+    st.should == Nagios::OK
+    mes.should == 'some 2'
+  end
 
 end

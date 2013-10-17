@@ -39,3 +39,16 @@ class Nagios::BlockObj < Nagios::Check
     ok "1"
   end
 end
+
+class Nagios::Prefix < Nagios::Check
+  params :s
+  
+  def message_prefix
+    'some '
+  end
+  
+  def execute
+    s == '1' ? crit('1') : ok('2')
+  end
+end
+              
