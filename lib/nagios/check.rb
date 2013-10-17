@@ -17,7 +17,8 @@ class Nagios::Check
   end
 
   def result
-    errors = [@crit, @warn, @other].flatten * '; '
+    prefix = self.respond_to?(:message_prefix) ? message_prefix : ''
+    errors = prefix + [@crit, @warn, @other].flatten * '; '
 
     if @crit.present?
       [Nagios::CRIT, errors]
@@ -26,7 +27,7 @@ class Nagios::Check
     elsif @other.present?
       [Nagios::OTHER, errors]
     else
-      [Nagios::OK, @ok * '; ']
+      [Nagios::OK, prefix + @ok * '; ']
     end
   end
 
@@ -107,10 +108,6 @@ protected
 
     other "Exception: " + ex.message
     send_result
-  end
-
-  def message(msg)
-    @message = msg
   end
 
 end
