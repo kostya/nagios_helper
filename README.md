@@ -58,13 +58,4 @@ end
 ```
 
     $ curl http://nagios:password@localhost:3000/nagios/check?method=some&x=1
-
-### Outside rails server
-
-With using nonblocking EM-server [nagios_rails_server](http://github.com/kostya/nagios_rails_server)
-
-AR connections should be configured with pool: 100.
-
-    $ RAILS_ENV=production bundle exec nagios_server
-    $ curl localhost:9292/check/some?x=1
-
+    
