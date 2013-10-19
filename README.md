@@ -58,4 +58,3 @@ end
 ```
 
     $ curl http://nagios:password@localhost:3000/nagios/check?method=some&x=1
-    

@@ -79,6 +79,10 @@ module Nagios
     ensure
       mutex.unlock
     end
+
+    def url(method)
+      "http://localhost:3000/nagios/check?method=#{method}"
+    end
   end
 
   autoload :Check,        'nagios/check'
