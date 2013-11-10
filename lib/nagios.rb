@@ -80,6 +80,14 @@ module Nagios
       mutex.unlock
     end
 
+    def load_all
+      load_initializers
+
+      Dir[root + "/**/*.rb"].each do |file|
+        require file
+      end
+    end
+
     def url(method)
       "http://localhost:3000/nagios/check?method=#{method}"
     end
