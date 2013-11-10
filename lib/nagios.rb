@@ -88,6 +88,18 @@ module Nagios
       end
     end
 
+    def all_classes
+      classes = []
+
+      Nagios.constants.each do |const|
+        kl = eval "Nagios::#{const}"
+        anc = kl.ancestors rescue []
+        classes << kl if anc.include?(Nagios::Check) && kl != Nagios::Check && kl != Nagios::CheckEM
+      end
+
+      classes
+    end
+
     def url(method)
       "http://localhost:3000/nagios/check?method=#{method}"
     end
