@@ -154,4 +154,10 @@ describe "Nagios::Runner" do
       mes.should == 'msg 15'
     end
   end
+
+  it "check_name" do
+    c = Nagios::Tresh.new
+    c.check_name.should == 'tresh'
+    Nagios::Tresh.check_name.should == 'tresh'
+  end
 end

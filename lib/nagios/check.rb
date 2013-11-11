@@ -2,12 +2,14 @@ class Nagios::Check
 
   TYPES = %w{ok crit other warn} unless defined?(TYPES)
 
+  attr_reader :check_name
+
   def initialize(params = {}, &callback)
     @params = params.with_indifferent_access
     @callback = callback
     @started_at = Time.now
     @tag = "#{self.class.name}/#{params.inspect}"
-    @check_name = self.class.name.underscore
+    @check_name = self.class.name.underscore.split("/").last
 
     logger.info "=> #{@tag}"
 
@@ -126,16 +128,7 @@ protected
 
   class << self
     def check_name
-      @check_name ||= self.name.underscore
-    end
-
-    def url
-      "http://localhost:3000/nagios/check?method=#{check_name}"
-    end
-
-    def interval
-      5 * 60
+      @check_name ||= self.name.underscore.split("/").last
     end
   end
-
 end
