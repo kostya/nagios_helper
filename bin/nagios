@@ -32,7 +32,14 @@ $:.unshift(File.expand_path(File.join(File.dirname(__FILE__), %w{.. lib})))
 require 'nagios/boot'
 
 raise "RAILS_ROOT not found" unless defined?(RAILS_ROOT)
-require File.expand_path(File.join(RAILS_ROOT, %w{config environment}))
+begin
+  require File.expand_path(File.join(RAILS_ROOT, %w{config environment.rb}))
+rescue LoadError
+  old_verbose, $VERBOSE = $VERBOSE, nil
+  RAILS_ROOT = "."
+  $VERBOSE = old_verbose
+  require File.expand_path(File.join(%w{config environment.rb}))
+end
 
 require 'nagios/runner'
 
