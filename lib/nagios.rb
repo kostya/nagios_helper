@@ -50,7 +50,15 @@ module Nagios
     end
 
     def rails_root
-      @rails_root ||= defined?(RAILS_ROOT) ? RAILS_ROOT : (defined?(Rails) ? Rails.root : nil)
+      @rails_root ||= begin
+        if defined?(RAILS_ROOT)
+          RAILS_ROOT
+        elsif defined?(Rails)
+          Rails.root
+        elsif defined?(Application)
+          Application.root
+        end
+      end
     end
 
     def rails_root=(rails_root)
