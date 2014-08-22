@@ -1,3 +1,5 @@
+require 'thread'
+
 class Nagios::Check
 
   TYPES = %w{ok crit other warn} unless defined?(TYPES)
@@ -17,6 +19,7 @@ class Nagios::Check
     @crit = []
     @warn = []
     @other = []
+    @mutex = Mutex.new
   end
 
   def result
@@ -82,10 +85,14 @@ protected
     define_method(m) do |mes, &block|
       if block
         if block.call
-          instance_variable_get("@#{m}") << mes
+          @mutex.synchronize do
+            instance_variable_get("@#{m}") << mes
+          end
         end
       else
-        instance_variable_get("@#{m}") << mes
+        @mutex.synchronize do
+          instance_variable_get("@#{m}") << mes
+        end
       end
     end
   end

@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'activesupport'
   s.add_dependency 'eventmachine'
 
-  s.add_development_dependency "rspec"
+  s.add_development_dependency "rspec", "<3"
   s.add_development_dependency "rake"
 
 end
